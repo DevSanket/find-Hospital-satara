@@ -13,6 +13,7 @@ export default function Screen({children,style}) {
 const styles = StyleSheet.create({
     screen : {
        paddingTop:Constants.statusBarHeight,
-       flex:1
+       flex:1,
+       backgroundColor:"#E0DEDD"
     }
 })

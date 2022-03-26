@@ -1,17 +1,56 @@
-import { StyleSheet, Text, View,FlatList,TouchableOpacity } from 'react-native'
-import React,{useState} from 'react'
+import { StyleSheet, Text, View,FlatList,TouchableOpacity,ScrollView,ToastAndroid } from 'react-native'
+import React,{useState,useEffect} from 'react'
 import Screen from '../Components/Screen'
 import { Talukas } from '../config/Taluka'
-import { Hospitals } from '../config/Hospitals';
+import Firebase from '../config/firebase';
+import HospitalCard from '../Components/HospitalCard';
 
-export default function HomeScreen() {
-  const [selectedId, setSelectedId] = useState(null);
-  const [allHospitals,setHospitals] = useState(Hospitals);
+export default function HomeScreen({navigation}) {
+  const [selectedId, setSelectedId] = useState(1);
+  const [allHospitals,setHospitals] = useState([]);
+  const [SortedHospitals,setSortedHospitals] = useState([]);
+  
+  const showToast = () => {
+    ToastAndroid.showWithGravityAndOffset(
+      "A wild toast appeared!",
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM,
+      25,
+      50
+    );
+  };
+
+  const db = Firebase.firestore();
+
+  useEffect( () => {
+    try {
+      db.collection('hospitals').onSnapshot(
+        snapshot => {
+          setHospitals(snapshot.docs.map(
+            doc => ({
+              id:doc.id,
+              Contact_No: doc.data().Contact_No,
+              Images : doc.data().Images,
+              Address : doc.data().Address,
+              email: doc.data().email,
+              name:doc.data().name,
+              Taluka: doc.data().Taluka.label
+            })
+          ))
+        }
+    );
+    } catch (error) {
+      console.log(error);
+    }
+    
+},[]);
 
   const GetHospitals = (data) => {
     setSelectedId(data.id);
-    setHospitals(data.hospitals);
+    const newHospitals = allHospitals.filter(hospital => hospital.Taluka.toLowerCase() === data.eng.toLowerCase());
+    setSortedHospitals(newHospitals);
 }
+
 const Item = ({ item, onPress, backgroundColor, textColor }) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
     <Text style={[textColor]}>{item.name}</Text>
@@ -30,7 +69,6 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
       />
     );
   };
-
   return (
     <Screen style={styles.container}>
        <Text style={styles.title}>साताऱ्या मधील तालुके - </Text>
@@ -44,6 +82,17 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
         extraData={selectedId}
       />
        </View>
+      <ScrollView>
+      {SortedHospitals.length ? 
+      SortedHospitals.map(hospital => (
+        <HospitalCard 
+        key={hospital.id}
+        details={hospital}
+        onPress={() => navigation.navigate('Hospital_Details',{hospital})}
+      />
+      ))
+      : <Text>No Data</Text>}
+      </ScrollView>
     </Screen>
   )
 }
@@ -54,7 +103,8 @@ const styles = StyleSheet.create({
       justifyContent:'flex-start'
   },
   TalukaContainer:{
-    height:'10%'
+    height:'10%',
+    width:"100%"
   },
   flat:{ 
       padding:10,
@@ -62,12 +112,14 @@ const styles = StyleSheet.create({
       borderTopColor:"black",
       borderBottomWidth:3,
       borderBottomColor:"black",
+      marginRight:10
   },
   item:{
     padding:10,
     backgroundColor : "grey",
     borderRadius:12,
     marginLeft:10,
+    marginRight:10,
     justifyContent:"flex-start",
     textAlign:'center',  
  },
