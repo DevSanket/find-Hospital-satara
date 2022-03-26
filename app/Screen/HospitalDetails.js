@@ -4,7 +4,7 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
-  Button
+  ToastAndroid
 } from "react-native";
 import React, { useState } from "react";
 import Screen from "../Components/Screen";
@@ -12,7 +12,8 @@ import AppText from "../Components/AppText";
 import { ErrorMessage, Form,FormField,SubmitButton } from '../Components/forms'
 import * as Yup from "yup";
 import IconButton from "../Components/IconButton";
-
+import Firebase from '../config/firebase';
+import useAuth from "../auth/useAuth";
 const validationSchema = Yup.object().shape({
   Patient_Name: Yup.string().max(255).required('Patient Name is required'),
   Patient_Contact_No : Yup.number().required('Password is required'),
@@ -20,12 +21,45 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function HospitalDetails({ navigation, route }) {
-  const { name, Address, Contact_No, email, Images } = route.params.hospital;
+  const { name, Address, Contact_No, email, Images,id } = route.params.hospital;
   const [mainImg, setMainImg] = useState(Images[0]);
   const [loginFailed, setLoginFailed] = useState(false);
   const [loading,setLoading] = useState(false);
+  const {userData} = useAuth();
+  const db = Firebase.firestore();
 
-  const handleSubmit = async ({Patient_Name,Patient_Contact_No,Patient_Disease}) => {
+  const showToast = () => {
+    ToastAndroid.showWithGravityAndOffset(
+      "Your Appointment Saved!",
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM,
+      25,
+      50
+    );
+  };
+
+  const handleSubmit = async ({Patient_Name,Patient_Contact_No,Patient_Disease,Hospital_id}) => {
+          // 1. store data in users pending Appointments
+            const dataRef =  db.collection('AppUsers').doc(userData.id).collection("RunningAppointments");
+             
+            dataRef.add({
+              name,
+              email,
+              Address,
+              disease : Patient_Disease,
+              Contact_No,
+              date : new Date()
+            })
+          //2. send Data to DB in  NewAppointmentsRequest
+           const userRef = db.collection('hospitals').doc(id).collection('NewAppointments');
+           userRef.add({
+            name : Patient_Name,
+            email,
+            disease : Patient_Disease,
+            contact_no : Patient_Contact_No,
+            date : new Date()
+           });
+           showToast();
 
   }
 
@@ -49,7 +83,7 @@ export default function HospitalDetails({ navigation, route }) {
           <AppText style={styles.textData}>{name}</AppText>
           <AppText style={styles.heading}>Hospital Address :- </AppText>
           <AppText style={styles.textData}>
-            At post shivthar tal dist satara pin code 415011{Address}
+            {Address}
           </AppText>
           <AppText style={styles.heading}>Hospital Contact :- </AppText>
           <AppText style={styles.textData}>+91 {Contact_No}</AppText>
@@ -62,11 +96,13 @@ export default function HospitalDetails({ navigation, route }) {
           {
             Patient_Name:'',
             Patient_Contact_No:'',
-            Patient_Disease:''
+            Patient_Disease:'',
+            Hospital_id:id
           }
         }
         validationSchema={validationSchema}
-        onSubmit={() => console.log(values)}
+        onSubmit={handleSubmit}
+        
         >
 
             <FormField 

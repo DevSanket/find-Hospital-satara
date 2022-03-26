@@ -4,9 +4,10 @@ import Screen from '../Components/Screen'
 import { Talukas } from '../config/Taluka'
 import Firebase from '../config/firebase';
 import HospitalCard from '../Components/HospitalCard';
+import { AntDesign } from "@expo/vector-icons";
 
 export default function HomeScreen({navigation}) {
-  const [selectedId, setSelectedId] = useState(1);
+  const [selectedId, setSelectedId] = useState();
   const [allHospitals,setHospitals] = useState([]);
   const [SortedHospitals,setSortedHospitals] = useState([]);
   
@@ -41,8 +42,8 @@ export default function HomeScreen({navigation}) {
     );
     } catch (error) {
       console.log(error);
-    }
-    
+    } 
+    setSortedHospitals(allHospitals);
 },[]);
 
   const GetHospitals = (data) => {
@@ -93,6 +94,11 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
       ))
       : <Text>No Data</Text>}
       </ScrollView>
+      <TouchableOpacity
+      onPress={() => navigation.navigate('Profile')}
+      style={styles.profileButton} >
+        <AntDesign name="user" size={30} color="white"/>
+      </TouchableOpacity>
     </Screen>
   )
 }
@@ -126,5 +132,19 @@ const styles = StyleSheet.create({
   title :{
     margin:10,
     fontSize:20
+},
+profileButton: {
+  height: 70,
+  width: 70,
+  bottom:0,
+  right:10,
+  backgroundColor: "#1DA1F2",
+  position: "absolute",
+  alignSelf: "flex-end",
+  alignItems: "center",
+  justifyContent:'center',
+  margin:20,
+  borderRadius:50,
+  elevation:10
 },
 })
