@@ -7,20 +7,10 @@ import HospitalCard from '../Components/HospitalCard';
 import { AntDesign } from "@expo/vector-icons";
 
 export default function HomeScreen({navigation}) {
-  const [selectedId, setSelectedId] = useState();
+  const [selectedId, setSelectedId] = useState(1);
   const [allHospitals,setHospitals] = useState([]);
   const [SortedHospitals,setSortedHospitals] = useState([]);
   
-  const showToast = () => {
-    ToastAndroid.showWithGravityAndOffset(
-      "A wild toast appeared!",
-      ToastAndroid.LONG,
-      ToastAndroid.BOTTOM,
-      25,
-      50
-    );
-  };
-
   const db = Firebase.firestore();
 
   useEffect( () => {
@@ -40,10 +30,11 @@ export default function HomeScreen({navigation}) {
           ))
         }
     );
+    GetHospitals(allHospitals);
     } catch (error) {
       console.log(error);
     } 
-    setSortedHospitals(allHospitals);
+    
 },[]);
 
   const GetHospitals = (data) => {
@@ -92,7 +83,9 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
         onPress={() => navigation.navigate('Hospital_Details',{hospital})}
       />
       ))
-      : <Text>No Data</Text>}
+      : <Text style={styles.text}>
+      आपला तालुका निवडा ( या तालुक्यात हॉस्पिटल अवेलेबल नाहीत )
+      </Text>}
       </ScrollView>
       <TouchableOpacity
       onPress={() => navigation.navigate('Profile')}
@@ -147,4 +140,9 @@ profileButton: {
   borderRadius:50,
   elevation:10
 },
+text:{
+  textAlign:'center',
+  padding:40,
+  fontSize:20
+}
 })

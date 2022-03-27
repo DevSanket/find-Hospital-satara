@@ -54,9 +54,10 @@ export default function HospitalDetails({ navigation, route }) {
            const userRef = db.collection('hospitals').doc(id).collection('NewAppointments');
            userRef.add({
             name : Patient_Name,
-            email,
+            email : userData.email,
             disease : Patient_Disease,
             contact_no : Patient_Contact_No,
+            Image : userData.photoUrl,
             date : new Date()
            });
            showToast();

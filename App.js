@@ -14,13 +14,13 @@ LogBox.ignoreLogs(['Setting a timer']);
 
 export default function App() {
   const db = Firebase.firestore();
-  const [userData,setUserData] = useState('');
+  const [userData,setUserData] = useState(null);
   const [isReady,setReady] = useState(false);
   
   const restoreUser = async () => {
     const user = await authStore.getData();
-    const {id} = JSON.parse(user); 
     if(user) {
+    const {id} = JSON.parse(user); 
      await db.collection('AppUsers').doc(id).get()
       .then(snapshot => 
       setUserData(snapshot.data())); 
