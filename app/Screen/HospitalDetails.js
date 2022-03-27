@@ -4,7 +4,8 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
-  ToastAndroid
+  ToastAndroid,
+  Linking
 } from "react-native";
 import React, { useState } from "react";
 import Screen from "../Components/Screen";
@@ -61,6 +62,7 @@ export default function HospitalDetails({ navigation, route }) {
             date : new Date()
            });
            showToast();
+           navigation.navigate('RunningAppointments');
 
   }
 
@@ -125,7 +127,7 @@ export default function HospitalDetails({ navigation, route }) {
         
         <View style={styles.ButtonContainer}>
         <AppText style={styles.text}>Call To Hospital - </AppText>
-        <IconButton name="phone" style={{width:150,backgroundColor:'#34a8eb'}} />
+        <IconButton onPress={() => Linking.openURL(`tel:${Contact_No}`)} name="phone" style={{width:150,backgroundColor:'#34a8eb'}} />
       </View>
         </View>
         

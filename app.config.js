@@ -39,8 +39,16 @@ export default {
       appId: process.env.APP_ID
     },
     android: {
-      package: "in.codemock.find_hospitals_satara",
-      googleServicesFile: "./google-services.json"
+      package: "in.codemock.find_hospital_satara",
+      intentFilters: [
+        {
+          action: "VIEW",
+          category: ["BROWSABLE", "DEFAULT"],
+          data: {
+            scheme: "in.codemock.find_hospital_satara"
+          }
+        }
+      ]
     }
   }
 }

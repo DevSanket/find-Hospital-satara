@@ -46,6 +46,7 @@ export default function ProfileScreen({navigation}) {
         <Divider />
         <ListItem
           title="About us"
+          onPress={() => navigation.navigate('Aboutus')}
           IconComponent={<Icon name="android" backgroundColor="#01F7CC" />}
         />
         <Divider />

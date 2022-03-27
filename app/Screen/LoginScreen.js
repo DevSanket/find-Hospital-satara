@@ -14,17 +14,19 @@ export default function LoginScreen() {
         scopes : ['profile','email']
       };
 
-      Google.logInAsync(config).then((result) => {
-          const {type,user} = result;
-          if(type === 'success'){
-            createUserProfile(user);
-            logIn(user);
-          }else{
-            console.log("Type Error");
-          }
-      }).catch(err => {
-        console.log(err);
-      })
+      
+
+      // Google.logInAsync(config).then((result) => {
+      //     const {type,user} = result;
+      //     if(type === 'success'){
+      //       createUserProfile(user);
+      //       logIn(user);
+      //     }else{
+      //       console.log("Type Error");
+      //     }
+      // }).catch(err => {
+      //   console.log(err);
+      // })
     }
 
   return (

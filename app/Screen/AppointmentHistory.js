@@ -24,7 +24,7 @@ export default function AppointmentHistory() {
                 date: doc.data().date
             })))
     });
-},[Data]);
+},[]);
 
 
 

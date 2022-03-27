@@ -45,7 +45,7 @@ export default function HomeScreen({navigation}) {
 
 const Item = ({ item, onPress, backgroundColor, textColor }) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
-    <Text style={[textColor]}>{item.name}</Text>
+    <Text style={textColor}>{item.name}</Text>
   </TouchableOpacity>
 );
 
@@ -115,12 +115,14 @@ const styles = StyleSheet.create({
   },
   item:{
     padding:10,
+    // height:40,
     backgroundColor : "grey",
     borderRadius:12,
     marginLeft:10,
     marginRight:10,
     justifyContent:"flex-start",
     textAlign:'center',  
+    alignSelf:"center"
  },
   title :{
     margin:10,
