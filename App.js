@@ -20,8 +20,8 @@ export default function App() {
   const restoreUser = async () => {
     const user = await authStore.getData();
     if(user) {
-    const {id} = JSON.parse(user); 
-     await db.collection('AppUsers').doc(id).get()
+    const {uid} = JSON.parse(user); 
+     await db.collection('AppUsers').doc(uid).get()
       .then(snapshot => 
       setUserData(snapshot.data())); 
     }

@@ -1,70 +1,104 @@
-import { StyleSheet, Text, View,TouchableOpacity,Image} from 'react-native'
+import { StyleSheet, Text, View,Image,TouchableOpacity } from 'react-native'
 import React,{useState} from 'react'
 import Screen from '../Components/Screen'
-import Firebase, { createUserProfile } from '../config/firebase'
-
+import { ErrorMessage, Form,FormField,SubmitButton } from '../Components/forms'
+import * as Yup from "yup";
+import colors from '../config/colors';
+import firebase from '../config/firebase';
 import useAuth from '../auth/useAuth';
-import * as Google from 'expo-google-app-auth';
+import ActivityIndicator from '../Components/ActivityIndicator';
 
-export default function LoginScreen() {
-    const  {userData,logIn} = useAuth();
-    const HandleLogin = async () => {
-      const config = {
-        androidClientId:`543362340836-gujr93b7b29jpqpkh91qkqlbor1sfjfn.apps.googleusercontent.com`,
-        scopes : ['profile','email']
-      };
 
-      
+const validationSchema = Yup.object().shape({
+    email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+ password: Yup.string().max(255).required('Password is required')
+})
 
-      // Google.logInAsync(config).then((result) => {
-      //     const {type,user} = result;
-      //     if(type === 'success'){
-      //       createUserProfile(user);
-      //       logIn(user);
-      //     }else{
-      //       console.log("Type Error");
-      //     }
-      // }).catch(err => {
-      //   console.log(err);
-      // })
+
+
+
+export default function LoginScreen({navigation}) {
+  const [loginFailed, setLoginFailed] = useState(false);
+  const [loading,setLoading] = useState(false);
+
+  const auth = useAuth();
+  const handleSubmit = async ({email,password}) => {
+    try { 
+      setLoading(true);
+      const {user} = await firebase.auth().signInWithEmailAndPassword(email,password);
+      setLoginFailed(false);
+      auth.logIn(user);
+      setLoading(false);
+    } catch (error) {
+      console.log("Error While Login ",error);
+      setLoading(false);
+      return setLoginFailed(true); 
     }
+    setLoading(false);
+      return;
+  }
 
   return (
+    <>
+    <ActivityIndicator visible={loading} />
     <Screen style={styles.container}>
         <Image
           style={styles.logo}
           source={require("../assets/logo-hospital.png")}
         />
-        <TouchableOpacity style={styles.Google}
-        onPress={HandleLogin} >
-        <Image
-        style={{height:40,width:40,marginRight:10}}
-          source={require('../assets/google.png')}
-        />
-        <Text>GOOGLE SIGN IN</Text>
-      </TouchableOpacity>
+        <Form
+        initialValues={
+            {
+                email:'',
+                password:''
+            }
+        }
+
+        onSubmit={handleSubmit}
+        validationSchema={validationSchema}
+        >
+          <ErrorMessage error="Invalid Email/password" visible={loginFailed} />
+            <FormField 
+                maxLength={255}
+                name="email"
+                placeholder="तुमचा ईमेल ॲड्रेस"
+            />
+            <FormField 
+                 name="password"
+                 placeholder="तुमचा पासवर्ड"
+                 secureTextEntry={true}
+            />
+            <SubmitButton title="पुढे चला" />
+        </Form>
+        <TouchableOpacity style={styles.redirect} onPress={() => navigation.navigate('Register')}>
+                <Text>नवीन अकाउंट उघडा?</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
+        <Text style={styles.text}>पासवर्ड विसरला ?</Text>
+        </TouchableOpacity>
     </Screen>
+    </>
   )
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'space-evenly',
-      },
-    Google:{
-        flexDirection:'row',
+    container:{
+        flex:1,
+        justifyContent:'center',
         alignItems:'center',
         padding:10,
-        backgroundColor:'#63DFF6',
-        borderRadius:10,
-        elevation:10
+        backgroundColor:colors.gray
     },
     logo: {
         height: 150,
         width: 150,
         alignSelf:"center"
       },
+      text:{
+        textAlign:"center"
+      },
+      redirect:{
+        marginTop:10,
+        marginBottom:10
+      }
 })

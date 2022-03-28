@@ -24,8 +24,6 @@ const validationSchema = Yup.object().shape({
 export default function HospitalDetails({ navigation, route }) {
   const { name, Address, Contact_No, email, Images,id } = route.params.hospital;
   const [mainImg, setMainImg] = useState(Images[0]);
-  const [loginFailed, setLoginFailed] = useState(false);
-  const [loading,setLoading] = useState(false);
   const {userData} = useAuth();
   const db = Firebase.firestore();
 
@@ -66,7 +64,6 @@ export default function HospitalDetails({ navigation, route }) {
 
   }
 
-
   return (
     <Screen>
       <ScrollView>
@@ -82,15 +79,15 @@ export default function HospitalDetails({ navigation, route }) {
               ))}
             </View>
           </ScrollView>
-          <AppText style={styles.heading}>Hospital Name :- </AppText>
+          <AppText style={styles.heading}>हॉस्पिटलचे नाव :- </AppText>
           <AppText style={styles.textData}>{name}</AppText>
-          <AppText style={styles.heading}>Hospital Address :- </AppText>
+          <AppText style={styles.heading}>हॉस्पिटलचा पत्ता :- </AppText>
           <AppText style={styles.textData}>
             {Address}
           </AppText>
-          <AppText style={styles.heading}>Hospital Contact :- </AppText>
+          <AppText style={styles.heading}>हॉस्पिटलचा फोन नंबर :- </AppText>
           <AppText style={styles.textData}>+91 {Contact_No}</AppText>
-          <AppText style={styles.heading}>Hospital Email :- </AppText>
+          <AppText style={styles.heading}>हॉस्पिटलचा ई-मेल ऍड्रेस :- </AppText>
           <AppText style={styles.textData}>{email}</AppText>
         </View>
         <View style={{padding:10}}>
@@ -111,23 +108,23 @@ export default function HospitalDetails({ navigation, route }) {
             <FormField 
                 maxLength={255}
                 name="Patient_Name"
-                placeholder="Patient Name"
+                placeholder="रुग्णाचे नाव"
             />
             <FormField 
                  name="Patient_Contact_No"
-                 placeholder="Patient Contact No"
+                 placeholder="रुग्णाचा फोन नंबर"
             />
             <FormField 
                  name="Patient_Disease"
-                 placeholder="Patient Disease"
+                 placeholder="कोणता आजार"
             />
-            <SubmitButton title="Submit" />
+            <SubmitButton title="हॉस्पिटल कडे पाठवा" />
            
         </Form>
         
         <View style={styles.ButtonContainer}>
-        <AppText style={styles.text}>Call To Hospital - </AppText>
-        <IconButton onPress={() => Linking.openURL(`tel:${Contact_No}`)} name="phone" style={{width:150,backgroundColor:'#34a8eb'}} />
+        <AppText style={styles.text}>हॉस्पिटल मध्ये कॉल करा - </AppText>
+        <IconButton onPress={() => Linking.openURL(`tel:${Contact_No}`)} name="phone" style={{width:150,backgroundColor:'#34a8eb',marginBottom:10}} />
       </View>
         </View>
         
@@ -162,13 +159,13 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   ButtonContainer:{
-    marginTop:10,
-    flexDirection:'row',
     padding:20,
-    justifyContent:'space-around'
+    justifyContent:'center',
+    alignItems:"center"
 },
 text:{
   textAlign:'center',
-  textAlignVertical:'center'
+  textAlignVertical:'center',
+  marginBottom:10
 }
 });

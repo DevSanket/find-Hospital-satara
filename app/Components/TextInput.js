@@ -13,7 +13,7 @@ export default function AppTextInput({icon,width="100%",...otherProps}) {
 
       <TextInput
       placeholderTextColor={defaultStyle.colors.medium}
-      style={defaultStyle.text} {...otherProps} />
+      style={[defaultStyle.text,{width:"100%"}]} {...otherProps} />
     </View>
   )
 }

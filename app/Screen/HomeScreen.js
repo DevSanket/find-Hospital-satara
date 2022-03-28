@@ -5,15 +5,18 @@ import { Talukas } from '../config/Taluka'
 import Firebase from '../config/firebase';
 import HospitalCard from '../Components/HospitalCard';
 import { AntDesign } from "@expo/vector-icons";
+import ActivityIndicator from '../Components/ActivityIndicator';
 
 export default function HomeScreen({navigation}) {
   const [selectedId, setSelectedId] = useState(1);
   const [allHospitals,setHospitals] = useState([]);
   const [SortedHospitals,setSortedHospitals] = useState([]);
+  const [loading,setLoading] = useState(false);
   
   const db = Firebase.firestore();
 
   useEffect( () => {
+    setLoading(true);
     try {
       db.collection('hospitals').onSnapshot(
         snapshot => {
@@ -34,7 +37,7 @@ export default function HomeScreen({navigation}) {
     } catch (error) {
       console.log(error);
     } 
-    
+    setLoading(false);
 },[]);
 
   const GetHospitals = (data) => {
@@ -62,6 +65,8 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
     );
   };
   return (
+    <>
+    <ActivityIndicator visible={loading} />
     <Screen style={styles.container}>
        <Text style={styles.title}>साताऱ्या मधील तालुके - </Text>
        <View style={styles.TalukaContainer}>
@@ -93,6 +98,7 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
         <AntDesign name="user" size={30} color="white"/>
       </TouchableOpacity>
     </Screen>
+    </>
   )
 }
 

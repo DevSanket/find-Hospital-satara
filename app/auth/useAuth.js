@@ -13,10 +13,10 @@ export default useAuth = () => {
         authStorage.removeData();
     }
 
-    const logIn = (user) => {
-        db.collection('AppUsers').doc(user.id).get()
+    const logIn = async (user) => {
+       await db.collection('AppUsers').doc(user.uid).get()
          .then(snapshot => 
-        setUserData(snapshot.data())); 
+        setUserData(snapshot.data()));
         authStorage.storeData(user);
     }
 

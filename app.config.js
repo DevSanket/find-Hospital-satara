@@ -2,7 +2,7 @@ import 'dotenv/config';
 
 export default {
   expo: {
-    name: "find-Hospital-satara",
+    name: "Find Hospital (Satara)",
     slug: "find-Hospital-satara",
     version: "1.0.0",
     orientation: "portrait",
@@ -40,15 +40,6 @@ export default {
     },
     android: {
       package: "in.codemock.find_hospital_satara",
-      intentFilters: [
-        {
-          action: "VIEW",
-          category: ["BROWSABLE", "DEFAULT"],
-          data: {
-            scheme: "in.codemock.find_hospital_satara"
-          }
-        }
-      ]
     }
   }
 }

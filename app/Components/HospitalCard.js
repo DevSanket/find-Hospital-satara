@@ -16,11 +16,11 @@ export default function HospitalCard({details,onPress}){
       />
       </View>
       <View style={styles.dataContainer}>
-          <AppText numberOfLines={1} style={styles.patientAppText}>Name :- {name}</AppText>
-          <AppText numberOfLines={1} style={styles.patientAppText}>Address :- {Address}</AppText>
-          <AppText numberOfLines={1} style={styles.patientAppText}>Contact  :- {Contact_No}.</AppText>
-          <AppText numberOfLines={1} style={styles.patientAppText}>Email :- {email}</AppText>
-          <TouchableOpacity onPress={onPress} style={styles.button}><Text style={styles.text}>See Details</Text></TouchableOpacity>
+          <AppText numberOfLines={1} style={styles.patientAppText}>हॉस्पिटलचे नाव :- {name}</AppText>
+          <AppText numberOfLines={1} style={styles.patientAppText}>हॉस्पिटलचा पत्ता :- {Address}</AppText>
+          <AppText numberOfLines={1} style={styles.patientAppText}>हॉस्पिटलचा फोन नंबर  :- {Contact_No}.</AppText>
+          <AppText numberOfLines={1} style={styles.patientAppText}>हॉस्पिटलचा ई-मेल ऍड्रेस :- {email}</AppText>
+          <TouchableOpacity onPress={onPress} style={styles.button}><Text style={styles.text}>माहिती पहा</Text></TouchableOpacity>
       </View>
     </View>
     </View>
@@ -61,15 +61,12 @@ const styles = StyleSheet.create({
         margin:5
       },
       button:{
-        height:40,
-        width:200,
+        padding:10,
         justifyContent:'center',
         alignItems:'center',
         marginTop:10,
         backgroundColor:'#FBC85C',
-        borderRadius:10,
-        
-        
+        borderRadius:10,    
       },
       text:{
         color:'#fff'

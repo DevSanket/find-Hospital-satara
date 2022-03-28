@@ -4,14 +4,18 @@ import Screen from '../Components/Screen'
 import HistoryCard from '../Components/HistoryCard';
 import useAuth from '../auth/useAuth'
 import Firebase from '../config/firebase'
+import ActivityIndicator from '../Components/ActivityIndicator';
 
 export default function AppointmentHistory() {
   const {userData} = useAuth();
   const [Data,setData] = useState([]);
   const db = Firebase.firestore();
+  const [loading,setLoading] = useState(false);
+
 
   //Firebase Data featch
   useEffect(() => {
+    setLoading(true);
     db.collection('AppUsers').doc(userData.id).collection('Appointments_History').onSnapshot(snapshot => {
         setData(snapshot.docs.map(
             doc => (
@@ -24,12 +28,15 @@ export default function AppointmentHistory() {
                 date: doc.data().date
             })))
     });
+    setLoading(false);
 },[]);
 
 
 
 
   return (
+    <>
+    <ActivityIndicator visible={loading} />
     <Screen>
       <ScrollView>
         <View style={styles.container}>
@@ -49,6 +56,7 @@ export default function AppointmentHistory() {
         }
       </ScrollView>
     </Screen>
+    </>
   )
 }
 

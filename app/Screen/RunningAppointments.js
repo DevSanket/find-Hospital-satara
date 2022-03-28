@@ -4,15 +4,15 @@ import Screen from '../Components/Screen'
 import Firebase from '../config/firebase'
 import useAuth from '../auth/useAuth';
 import RunningAppointMentCard from '../Components/RunningAppointmentCard';
+import ActivityIndicator from '../Components/ActivityIndicator';
 
 
 export default function RunningAppointments() {
+  const [loading,setLoading] = useState(false);
   const db = Firebase.firestore();
   const [RunningAppointments,setRunningAppointments] = useState([]);
   const {userData} = useAuth();
 
-
-  
   const HandleCheck = async (name,email,disease,phone_no,id) => {
     const userRef = Firebase.firestore().collection('AppUsers').doc(userData.id).collection('Appointments_History');
     try {
@@ -33,6 +33,7 @@ export default function RunningAppointments() {
 
 
   useEffect(() => {
+    setLoading(true);
     db.collection('AppUsers').doc(userData.id).collection('RunningAppointments').onSnapshot(snapshot => {
       setRunningAppointments(snapshot.docs.map(
           doc => (
@@ -46,10 +47,12 @@ export default function RunningAppointments() {
               date : doc.data().date
           })))
   });
-
+setLoading(false);
   },[])
 
   return (
+    <>
+    <ActivityIndicator visible={loading}/>
   <Screen>
     <ScrollView>
      {
@@ -76,6 +79,7 @@ export default function RunningAppointments() {
       }
      </ScrollView>
   </Screen>
+    </>
   )
 }
 
