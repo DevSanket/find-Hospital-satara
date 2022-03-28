@@ -117,7 +117,8 @@ const styles = StyleSheet.create({
       borderTopColor:"black",
       borderBottomWidth:3,
       borderBottomColor:"black",
-      marginRight:10
+      marginRight:10,
+      width:"100%"
   },
   item:{
     padding:10,
