@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
       justifyContent:'flex-start'
   },
   TalukaContainer:{
-    height:'10%',
+    height:80,
     width:"100%"
   },
   flat:{ 

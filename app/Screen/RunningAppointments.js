@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View,ToastAndroid,ScrollView } from 'react-native'
+import { StyleSheet, Text,ToastAndroid,ScrollView } from 'react-native'
 import React,{useEffect,useState} from 'react'
 import Screen from '../Components/Screen'
 import Firebase from '../config/firebase'
@@ -17,7 +17,7 @@ export default function RunningAppointments() {
     const userRef = Firebase.firestore().collection('AppUsers').doc(userData.id).collection('Appointments_History');
     try {
       await userRef.add({
-        name,email,disease,contact_no:phone_no,date: new Date()
+        name,email,disease,contact_no:phone_no,date: Date.now()
       }).then(data => {
         ToastAndroid.show("Your Appoinments is Done!",ToastAndroid.SHORT);
       })
