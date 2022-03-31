@@ -14,7 +14,7 @@ export default function HistoryCard({name,email,contact_no,date}) {
            <Text>Name :- {name}</Text> 
            <Text>Email :- {email}</Text>
            <Text>Contact No :- {contact_no}</Text>
-           <Text>Date :- {dateFormat(Date(date),"dddd, mmmm dS, yyyy")}</Text>
+           <Text>Date :- {date}</Text>
       </View>
     </View>
   )

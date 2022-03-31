@@ -1,4 +1,4 @@
-import { StyleSheet, Image, ScrollView } from "react-native";
+import { StyleSheet, Image, ScrollView,Alert } from "react-native";
 import React,{useState} from "react";
 import Screen from "../Components/Screen";
 import * as Yup from "yup";
@@ -28,11 +28,12 @@ export default function Registration() {
     try {
       setLoading(true);
       const {user} = await Firebase.auth().createUserWithEmailAndPassword(email,password);
-      await createUserProfile(user,images,{name,Contact_No,Address,password});
+      await createUserProfile(user,images,{name,Contact_No,Address,password})
       auth.logIn(user);
       setLoading(false);
     } catch (error) {
       setError("An unexprected error occured");
+      Alert.alert("तुमचा पासवर्ड 6 अंकी हवा");
       console.log(error);
       setLoading(false);
       return;

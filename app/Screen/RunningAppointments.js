@@ -5,7 +5,7 @@ import Firebase from '../config/firebase'
 import useAuth from '../auth/useAuth';
 import RunningAppointMentCard from '../Components/RunningAppointmentCard';
 import ActivityIndicator from '../Components/ActivityIndicator';
-
+import dateFormat from 'dateformat';
 
 export default function RunningAppointments() {
   const [loading,setLoading] = useState(false);
@@ -17,16 +17,18 @@ export default function RunningAppointments() {
     const userRef = Firebase.firestore().collection('AppUsers').doc(userData.id).collection('Appointments_History');
     try {
       await userRef.add({
-        name,email,disease,contact_no:phone_no,date: Date.now()
+        name,email,disease,contact_no:phone_no,date: dateFormat(new Date(),"mmmm dS, yyyy").toString()
       }).then(data => {
         ToastAndroid.show("Your Appoinments is Done!",ToastAndroid.SHORT);
       })
     } catch (error) {
+      console.log(error);
       ToastAndroid.show("Something Went  Wrong!",ToastAndroid.SHORT)
     }
     try {
       await Firebase.firestore().collection('AppUsers').doc(userData.id).collection('RunningAppointments').doc(id).delete();
      } catch (error) {
+       console.log(error);
        ToastAndroid.show("Something Went  Wrong!",ToastAndroid.SHORT);
      }
   }
