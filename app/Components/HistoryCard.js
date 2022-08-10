@@ -1,48 +1,52 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react';
-import {MaterialCommunityIcons} from '@expo/vector-icons'
+import React from 'react'
+import {Entypo} from '@expo/vector-icons'
 import colors from '../config/colors';
-import dateFormat from 'dateformat';
 
 export default function HistoryCard({name,email,contact_no,date}) {
   return (
-    <View style={styles.historyCard}>
-      <View style={styles.Checklogo}>
-        <MaterialCommunityIcons size={25} name="check" />
-      </View>
-      <View style={styles.Details}>
-           <Text>Name :- {name}</Text> 
-           <Text>Email :- {email}</Text>
-           <Text>Contact No :- {contact_no}</Text>
-           <Text>Date :- {date}</Text>
-      </View>
+    <View style={styles.Card}>
+
+    <View style={styles.dataMenu}>
+       <View style={styles.icon}> 
+       <Entypo  size={35} name="check" />
+       </View>
+       <View style={styles.textContainer}>
+         <Text style={styles.text}>Name :- {name}</Text> 
+          <Text style={styles.text}>Email :- {email}</Text>
+          <Text style={styles.text}>Contact No :- {contact_no}</Text>
+          <Text style={styles.text}>Date :- {date}</Text>
+       </View>
     </View>
+  </View> 
   )
 }
 
 const styles = StyleSheet.create({
-    historyCard:{
-        flex:1,
-        flexDirection:'row',
-        justifyContent:'flex-start',
-        padding:10,
-        borderRadius:15,
-        backgroundColor :colors.white,
-        margin : 20,
-        elevation:10,
-        overflow:'hidden'
-    },
-    Checklogo:{
-        height:'100%',
-        width:80,
-        backgroundColor:colors.gray,
-        justifyContent:'center',
-        alignItems:'center',
-        borderRadius:50
-    },
-    Details:{
-        height:'100%',
-        marginLeft:20,
-        alignSelf:'flex-start'
-    }
-})
+    Card:{
+      padding:10,
+      borderRadius:5,
+      margin : 20,
+      elevation:10,
+      backgroundColor :colors.white,
+      overflow:'scroll'
+  },
+  dataMenu:{
+    flexDirection:'row',
+    justifyContent:'space-around',
+    marginBottom:10
+  },
+  textContainer:{
+    flex:0.8
+  },
+  icon:{
+    alignSelf:'center'
+  },
+  ButtonContainer:{
+    borderColor:"#000",
+    borderTopWidth:2,
+      padding:10,
+      flexDirection:'row',
+      justifyContent:'space-around'
+  },
+  })

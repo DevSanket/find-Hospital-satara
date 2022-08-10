@@ -5,6 +5,7 @@ import colors from '../config/colors'
 export default function Divider() {
   return (
     <View style={styles.container}>
+      
     </View>
   )
 }

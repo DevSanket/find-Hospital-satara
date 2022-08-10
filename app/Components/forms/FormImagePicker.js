@@ -1,8 +1,8 @@
-import React from "react";
-import { useFormikContext } from "formik";
-
+import { StyleSheet, Text, View } from 'react-native'
+import React from 'react'
 import ErrorMessage from "./ErrorMessage";
 import ImageInputList from "../ImageInputList";
+import { useFormikContext } from 'formik';
 
 function FormImagePicker({ name }) {
   const { errors, setFieldValue, touched, values } = useFormikContext();

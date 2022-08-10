@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import {  Text, View } from 'react-native'
 import React from 'react'
 import {MaterialCommunityIcons} from '@expo/vector-icons'
 
@@ -16,7 +16,3 @@ export default function Icon({name,size=40,backgroundColor="#000",iconColor="#ff
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-
-})

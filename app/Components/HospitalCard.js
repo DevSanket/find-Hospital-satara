@@ -1,28 +1,31 @@
-import { StyleSheet, Text, View,Image,TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View,Image } from 'react-native'
 import React from 'react'
-import AppText from './AppText'
-import colors from '../config/colors'
+import AppText from './AppText';
+import colors from '../config/colors';
 
-
-export default function HospitalCard({details,onPress}){  
-  const {name,Address,Contact_No,email,Images} = details;
+export default function HospitalCard({details,onPress}) {
+    const {name,Address,Contact_No,email,Images} = details;
   return (
     <View style={styles.Card}>
-      <View style={styles.firstContainer}>
-      <View style={styles.LogoContainer}>
-      <Image
-      style={styles.image} 
-      source={{ uri : Images[0]}}
-      />
-      </View>
-      <View style={styles.dataContainer}>
-          <AppText numberOfLines={1} style={styles.patientAppText}>हॉस्पिटलचे नाव :- {name}</AppText>
-          <AppText numberOfLines={1} style={styles.patientAppText}>हॉस्पिटलचा पत्ता :- {Address}</AppText>
-          <AppText numberOfLines={1} style={styles.patientAppText}>हॉस्पिटलचा फोन नंबर  :- {Contact_No}.</AppText>
-          <AppText numberOfLines={1} style={styles.patientAppText}>हॉस्पिटलचा ई-मेल ऍड्रेस :- {email}</AppText>
-          <TouchableOpacity onPress={onPress} style={styles.button}><Text style={styles.text}>माहिती पहा</Text></TouchableOpacity>
-      </View>
-    </View>
+
+        <View style={styles.firstContainer}>
+            <View style={styles.LogoContainer}>
+                <Image 
+                    style={styles.image}
+                    source={{uri:Images[0]}}
+                />
+            </View>
+            <View style={styles.dataContainer}>
+                    <AppText numberOfLines={1} style={styles.patientAppText}>Hospital Name - {name}</AppText>
+                    <AppText numberOfLines={1} style={styles.patientAppText}>Address - {Address}</AppText>
+                    <AppText numberOfLines={1} style={styles.patientAppText}>Contact no - {Contact_No}</AppText>
+                    <AppText numberOfLines={1} style={styles.patientAppText}>email - {email}</AppText>
+                    <TouchableOpacity onPress={onPress} style={styles.button}>
+                        <Text style={styles.text}>See Details</Text>
+                    </TouchableOpacity>
+            </View>
+        </View>
+     
     </View>
   )
 }

@@ -1,22 +1,21 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import { useNetInfo } from '@react-native-community/netinfo';
 import AppText from './AppText'
 import colors from '../config/colors'
 import  Constants  from 'expo-constants';
-import { useNetInfo } from '@react-native-community/netinfo';
 
-export default function OfflineNotice() {
+export default function offlineNotice() {
     const netInfo = useNetInfo();
     if(netInfo.type !== "unknown" && netInfo.isInternetReachable === false){
 
-  return (
-    <View style={styles.container}>
-      <AppText style={styles.text}>No Internet Connection</AppText>
-    </View>
-  )
-  }
+        return (
+          <View style={styles.container}>
+            <AppText style={styles.text}>No Internet Connection</AppText>
+          </View>
+        )
+    }
     return null;
-  
 }
 
 const styles = StyleSheet.create({
